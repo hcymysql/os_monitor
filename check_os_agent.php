@@ -107,7 +107,7 @@ class OS_check_detail extends OS_check{
 	    global  $local_host;
 
 	    require 'conn.php';
-	    $result = mysqli_query($conn,"select tags,monitor,send_mail,send_mail_to_list,send_weixin,send_weixin_to_list,threshold_alarm_{$this->check_para} from os_status_info where host='$local_host'");
+	    $result = mysqli_query($conn,"select tag,monitor,send_mail,send_mail_to_list,send_weixin,send_weixin_to_list,threshold_alarm_{$this->check_para} from os_status_info where host='$local_host'");
 
 	    if (!$result) {
     		printf("Error: %s\n", mysqli_error($conn));
