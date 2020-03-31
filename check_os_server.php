@@ -31,7 +31,7 @@ class OS_check_alive {
             $is_alive = fsockopen($host, $ssh_port, $errno, $errstr, 10);
             if($errno==0){
                 echo "被监控主机：$host  【{$tag}】主机访问正常。" . "\n";
-                $sql_os_status = "INSERT INTO os_status(host,tag,is_alive,create_time) VALUES('$host','$tag','online',now())";
+                $sql_os_status = "REPLACE INTO os_status(host,tag,is_alive,create_time) VALUES('$host','$tag','online',now())";
             }
 
             if (!$is_alive) {
@@ -58,7 +58,7 @@ class OS_check_alive {
                     mysqli_query($conn, $os_status);
                 }
 
-                $sql_os_status = "INSERT INTO os_status(host,tag,is_alive,create_time) VALUES('$host','$tag','offline',now())";
+                $sql_os_status = "REPLACE INTO os_status(host,tag,is_alive,create_time) VALUES('$host','$tag','offline',now())";
             } else {
                 //恢复---------------------
                 if ($send_mail == 0 || empty($send_mail)) {
@@ -89,12 +89,12 @@ class OS_check_alive {
             }
 
             if (mysqli_query($conn, $sql_os_status)) {
-                echo "\n{$host}:'{$tag}' 新记录插入成功\n";
+                echo "\n{$host}:'{$tag}' 监控数据采集入库成功\n";
             } else {
-                echo "\n{$host}:'{$tag}' 新记录插入失败\n";
+                echo "\n{$host}:'{$tag}' 监控数据采集入库失败\n";
                 echo "Error: " . $sql_os_status . "\n" . mysqli_error($conn);
             }
-            
+
         } //end while
     } //end usage()
 } // end OS_check_detail
