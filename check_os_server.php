@@ -48,7 +48,7 @@ class OS_check_alive {
                     echo "被监控主机：$host  【$tag】关闭微信监控报警。" . "\n";
                 } else {
                     $alarm_subject = "【告警】被监控主机：" . $host . "  【{$tag}】" . "ssh无法连接，请检查。 " . date("Y-m-d H:i:s");
-                    $alarm_info = "被监控主机：" . $host . "  【{$tag}】" . "\"ssh无法连接，请检查。错误信息： " . $errstr;
+                    $alarm_info = "被监控主机：" . $host . "  【{$tag}】" . "ssh无法连接，请检查。错误信息： " . $errstr;
                     $sendweixin = new weixin($send_weixin_to_list, $alarm_subject, $alarm_info);
                     $sendweixin->execCommand();
                 }
