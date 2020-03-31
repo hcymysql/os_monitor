@@ -47,7 +47,7 @@ echo "\n主机IP是：".$local_host."\n主机标签是：".$check->host_tag."\n"
 
 //入库
 
-    $sql = "INSERT INTO os_status(host,tag,cpu_idle,cpu_load,memory_usage,disk_free,create_time) VALUES ('{$local_host}','{$check->host_tag}','{$cpu_idle}','{$cpu_load}','{$memory}','{$disk_free}',NOW())";
+    $sql = "REPLACE INTO os_status(host,tag,is_alive,cpu_idle,cpu_load,memory_usage,disk_free,create_time) VALUES ('{$local_host}','{$check->host_tag}','online','{$cpu_idle}','{$cpu_load}','{$memory}','{$disk_free}',NOW())"; 
 
     if (mysqli_query($conn, $sql)) {
         echo "\n监控数据采集入库成功!\n";
