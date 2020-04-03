@@ -138,10 +138,8 @@ echo "<td>{$row['cpu_load']}</td>";
 echo "<td>{$row['memory_usage']}</td>";
 //echo "<td><a href='javascript:void(0);' onclick=\"x_admin_show('连接数详情','db_connect_statistic.php?ip={$row['1']}&dbname={$row['2']}&port={$row['3']}')\">{$row['7']}</a></td>";
 echo "<td><pre><code>{$row['disk_free']}</code></pre></td>";
-
-//echo "<td>{$row['14']} 天</td>";
 echo "<td>{$row['create_time']}</td>";
-echo "<td><a href='javascript:void(0);' onclick=\"x_admin_show('历史信息图表','show_graph.php?ip={$row['1']}&dbname={$row['2']}&port={$row['3']}')\"><img src='image/chart.gif' /></a></td>";
+echo "<td><a href='javascript:void(0);' onclick=\"x_admin_show('历史信息图表','show_graph.php?host={$row['host']}&tag={$row['tag']}')\"><img src='image/chart.gif' /></a></td>";
 echo "</tr>";
 }
 //end while
