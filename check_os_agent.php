@@ -41,20 +41,30 @@ $memory=round($memory_return[0]);
 
 $check = new OS_check_detail('disk_free');
 $disk_free_return=$check->usage();
+
 $disk_free=implode(PHP_EOL,$disk_free_return);
 //echo '$disk_free的返回值是：'.$disk_free."\n";
 
 echo "\n主机IP是：".$local_host."\n主机标签是：".$check->host_tag."\n";
 
+// 磁盘历史数据入库
+foreach ($disk_free_return as $v){
+    $disk_tmp = explode(" ",$v);
+    $Used = rtrim($disk_tmp[0],'%');
+    $Mounted = $disk_tmp[1];
+    $disk_history="INSERT INTO os_disk_history(host,tag,is_alive,mount,disk_usage,create_time) 
+                   VALUES ('{$local_host}','{$check->host_tag}','online','{$Mounted}','{$Used}',NOW())";
+    mysqli_query($conn, $disk_history);
+}
+
 //入库
 
-    //$sql = "REPLACE INTO os_status(host,tag,is_alive,cpu_idle,cpu_load,memory_usage,disk_free,create_time) VALUES ('{$local_host}','{$check->host_tag}','online','{$cpu_idle}','{$cpu_load}','{$memory}','{$disk_free}',NOW()) ON DUPLICATE KEY UPDATE host='{$local_host}',tag='{$check->host_tag}',cpu_idle='{$cpu_idle}',cpu_load='{$cpu_load}',memory_usage='{$memory}',disk_free='{$disk_free}',create_time=NOW()";
     $sql = "REPLACE INTO os_status(host,tag,is_alive,cpu_idle,cpu_load,memory_usage,disk_free,create_time) VALUES ('{$local_host}','{$check->host_tag}','online','{$cpu_idle}','{$cpu_load}','{$memory}','{$disk_free}',NOW())"; 
 
     if (mysqli_query($conn, $sql)) {
         echo "\n监控数据采集入库成功!\n";
         $history_sql="INSERT INTO os_status_history(host,tag,is_alive,cpu_idle,cpu_load,memory_usage,disk_free,create_time) VALUES ('{$local_host}','{$check->host_tag}','online','{$cpu_idle}','{$cpu_load}','{$memory}','{$disk_free}',NOW())";
-	mysqli_query($conn, $history_sql);
+	    mysqli_query($conn, $history_sql);
     } else {
         echo "Error: " . $sql . "   " . mysqli_error($conn);
     }
