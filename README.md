@@ -28,6 +28,10 @@
 5、磁盘空间使用率
 ![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_5.png)
 
+6、微信报警
+
+![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_6.png)
+
 
 ### 一、环境搭建
         【监控管理端】
@@ -55,7 +59,7 @@
 
 2、导入os_monitor监控工具表结构（os_monitor_db库）
 
-# cd  /var/www/html/mysql_monitor/
+# cd  /var/www/html/os_monitor/
 
 # mysql  -uroot  -p123456  <  os_monitor_schema.sql
 
