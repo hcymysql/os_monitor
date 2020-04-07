@@ -1,5 +1,6 @@
-# os_monitor
-傻瓜式免安装-Centos操作系统资源监控工具
+# os_monitor 傻瓜式免安装-Centos操作系统资源监控工具
+# 简介：
+一款轻量级os系统可视化监控指标工具，采集的指标有cpu idlu空闲使用率，cpu load负载使用率，内存使用率，磁盘空间使用率。
 
 工作流程：Agent端从Server端os_status_info表中，获取被监控主机的各项系统阀值，采集客户端主机资源信息完成入库和报警，Server端用来监控客户端主机ssh是否存活和页面信息展示。
 
