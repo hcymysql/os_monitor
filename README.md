@@ -51,7 +51,7 @@
 
 ### 二、os_monitor监控工具搭建
 
-####【监控管理端】
+        【监控管理端】
 
 1、导入os_monitor监控工具表结构（os_monitor_db库）
 
