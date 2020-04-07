@@ -130,7 +130,7 @@ color='#FF0000'>{$this->alarm_info}</font>' -xu chunyang_he@139.com -xp
 https://github.com/X-Mars/Zabbix-Alert-WeChat/blob/master/README.md 看此教程配置。
 
 
-7、定时任务每分钟抓取一次
+7、crontab定时任务每分钟抓取一次
 
 */1 * * * * cd /var/www/html/os_monitor/; /usr/bin/php /var/www/html/os_monitor/check_os_server.php > /dev/null 2 >&1
 
@@ -157,7 +157,7 @@ http://yourIP/os_monitor/os_status_monitor.php
 
 需要check_os_agent.php和conn.php文件，以及mail和weixin目录文件
 
-定时任务每分钟抓取一次
+crontab定时任务每分钟抓取一次
 
 */1 * * * * cd /usr/local/os_monitor_agent/; /usr/bin/php /usr/local/os_monitor_agent/check_os_agent.php > /dev/null 2 >&1
 
