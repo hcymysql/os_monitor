@@ -6,4 +6,5 @@
 
 只需一条SQL，简单的配置，即可完成部署。
 
-
+1、Dashboard首页
+![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_1.png)
