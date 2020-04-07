@@ -30,14 +30,14 @@
 
 
 ### 一、环境搭建
-1）监控端：
+1）监控管理端：
 # yum install httpd mysql php php-mysqlnd -y
 # service httpd restart
 
 2）被监控端
 # yum install php php-mysqlnd -y
 
-回到监控端，把https://github.com/hcymysql/os_monitor/archive/master.zip安装包解压缩到
+回到监控管理端，把https://github.com/hcymysql/os_monitor/archive/master.zip安装包解压缩到
 /var/www/html/目录下
 
 # cd /var/www/html/os_monitor/
@@ -50,6 +50,8 @@
 
 
 ### 二、os_monitor监控工具搭建
+
+####【监控管理端】
 
 1、导入os_monitor监控工具表结构（os_monitor_db库）
 
@@ -102,6 +104,7 @@ $conn = mysqli_connect("127.0.0.1","admin","hechunyang","os_monitor_db","3306") 
 
 改成你的os_monitor监控工具表结构（os_monitor_db库）连接信息
 
+
 4、修改邮件报警信息
 
 # cd /var/www/html/mysql_monitor/mail/
@@ -132,9 +135,7 @@ https://github.com/X-Mars/Zabbix-Alert-WeChat/blob/master/README.md 看此教程
 
 7、更改页面自动刷新频率
 
-# vim mysql_status_monitor.php
-
-# vim mysql_repl_monitor.php
+# vim os_status_monitor.php
 
 http-equiv="refresh" content="600"
 
@@ -146,4 +147,13 @@ http-equiv="refresh" content="600"
 http://yourIP/os_monitor/os_status_monitor.php
 
 加一个超链接，可方便地接入你们的自动化运维平台里。
+
+
+####【被监控端Agent】
+需要check_os_agent.php和conn.php文件，以及mail和weixin目录文件
+
+--------------------------------------------------
+定时任务每分钟抓取一次
+
+*/1 * * * * cd /var/www/html/check_os/; /usr/bin/php /var/www/html/check_os/check_os_server.php > /dev/null 2 >&1
 
