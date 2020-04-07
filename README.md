@@ -155,7 +155,7 @@ http://yourIP/os_monitor/os_status_monitor.php
 
 定时任务每分钟抓取一次
 
-*/1 * * * * cd /var/www/html/os_monitor/; /usr/bin/php /var/www/html/os_monitor/check_os_agent.php > /dev/null 2 >&1
+*/1 * * * * cd /usr/local/os_monitor_agent/; /usr/bin/php /usr/local/os_monitor_agent/check_os_agent.php > /dev/null 2 >&1
 
 注意：conn.php文件要和监控管理端的信息内容一致。
 
