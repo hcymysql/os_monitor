@@ -61,4 +61,16 @@ CREATE TABLE `os_status_info` (
 
 
 
+/*Table structure for table `os_disk_history` */
+
+CREATE TABLE `os_disk_history` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键自增Id',
+  `host` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '监控主机IP',
+  `tag` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '监控主机名字',
+  `is_alive` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '是否存活.online为在线;offline为离线',
+  `mount` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '挂载目录信息',
+  `disk_usage` INT DEFAULT NULL COMMENT '磁盘空间使用率',
+  `create_time` TIMESTAMP NULL DEFAULT NULL COMMENT '监控信息入库时间',
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='磁盘空间使用率历史信息记录表';
 
