@@ -161,5 +161,7 @@ http://yourIP/os_monitor/os_status_monitor.php
 
 */1 * * * * cd /usr/local/os_monitor_agent/; /usr/bin/php /usr/local/os_monitor_agent/check_os_agent.php > /dev/null 2 >&1
 
+![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_7.png)
+
 注意：conn.php文件要和监控管理端的信息内容一致。
 
