@@ -30,15 +30,19 @@
 
 
 ### 一、环境搭建
-1）监控管理端：
+        【监控管理端】
 # yum install httpd mysql php php-mysqlnd -y
 # service httpd restart
 
-2）被监控端
+        【被监控端】
 # yum install php php-mysqlnd -y
 
-回到监控管理端，把https://github.com/hcymysql/os_monitor/archive/master.zip安装包解压缩到
-/var/www/html/目录下
+### 二、os_monitor监控工具搭建
+
+        【监控管理端】
+       
+1、把https://github.com/hcymysql/os_monitor/archive/master.zip
+安装包解压缩到/var/www/html/目录下
 
 # cd /var/www/html/os_monitor/
 
@@ -49,18 +53,14 @@
 （注：邮件和微信报警调用的第三方工具，所以这里要赋予可执行权限755）
 
 
-### 二、os_monitor监控工具搭建
-
-        【监控管理端】
-
-1、导入os_monitor监控工具表结构（os_monitor_db库）
+2、导入os_monitor监控工具表结构（os_monitor_db库）
 
 # cd  /var/www/html/mysql_monitor/
 
 # mysql  -uroot  -p123456  <  os_monitor_schema.sql
 
 
-2、录入被监控主机的信息
+3、录入被监控主机的信息
 
 mysql> insert  into os_status_info(host,ssh_port,tag,monitor,send_mail,
 send_mail_to_list,send_weixin,send_weixin_to_list,threshold_alarm_cpu_idle,
@@ -95,7 +95,7 @@ threshold_alarm_memory_usage字段含义：设置memory内存使用率阀值
 threshold_alarm_disk_free字段含义：设置磁盘空间使用率阀值
 
 
-3、修改conn.php配置文件
+4、修改conn.php配置文件
 
 # vim /var/www/html/os_monitor/conn.php
 
@@ -105,7 +105,7 @@ $conn = mysqli_connect("127.0.0.1","admin","hechunyang","os_monitor_db","3306") 
 改成你的os_monitor监控工具表结构（os_monitor_db库）连接信息
 
 
-4、修改邮件报警信息
+5、修改邮件报警信息
 
 # cd /var/www/html/mysql_monitor/mail/
 # vim mail.php
@@ -118,7 +118,7 @@ color='#FF0000'>{$this->alarm_info}</font>' -xu chunyang_he@139.com -xp
 改成你的发件人地址，账号密码，里面的变量不用修改。
 
 
-5、修改微信报警信息
+6、修改微信报警信息
 
 # cd /var/www/html/mysql_monitor/weixin/
 # vim wechat.py
@@ -126,14 +126,14 @@ color='#FF0000'>{$this->alarm_info}</font>' -xu chunyang_he@139.com -xp
 https://github.com/X-Mars/Zabbix-Alert-WeChat/blob/master/README.md 看此教程配置。
 
 
-6、定时任务每分钟抓取一次
+7、定时任务每分钟抓取一次
 
-*/1 * * * * cd /var/www/html/check_os/; /usr/bin/php /var/www/html/check_os/check_os_agent.php > /dev/null 2 >&1
+*/1 * * * * cd /var/www/html/os_monitor/; /usr/bin/php /var/www/html/os_monitor/check_os_server.php > /dev/null 2 >&1
 
-*/1 * * * * cd /var/www/html/check_os/; /usr/bin/php /var/www/html/check_os/check_os_server.php > /dev/null 2 >&1
+*/1 * * * * cd /var/www/html/os_monitor/; /usr/bin/php /var/www/html/os_monitor/check_os_agent.php > /dev/null 2 >&1
 
 
-7、更改页面自动刷新频率
+8、更改页面自动刷新频率
 
 # vim os_status_monitor.php
 
@@ -142,7 +142,7 @@ http-equiv="refresh" content="600"
 默认页面每600秒自动刷新一次。
 
 
-8、页面访问
+9、页面访问
 
 http://yourIP/os_monitor/os_status_monitor.php
 
@@ -153,8 +153,9 @@ http://yourIP/os_monitor/os_status_monitor.php
 
 需要check_os_agent.php和conn.php文件，以及mail和weixin目录文件
 
-
 定时任务每分钟抓取一次
 
-*/1 * * * * cd /var/www/html/check_os/; /usr/bin/php /var/www/html/check_os/check_os_server.php > /dev/null 2 >&1
+*/1 * * * * cd /var/www/html/os_monitor/; /usr/bin/php /var/www/html/os_monitor/check_os_agent.php > /dev/null 2 >&1
+
+注意：conn.php文件要和监控管理端的信息内容一致。
 
