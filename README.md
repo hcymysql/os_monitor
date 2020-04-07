@@ -63,6 +63,7 @@
 mysql> insert  into os_status_info(host,ssh_port,tag,monitor,send_mail,
 send_mail_to_list,send_weixin,send_weixin_to_list,threshold_alarm_cpu_idle,
 threshold_alarm_cpu_load,threshold_alarm_memory_usage,threshold_alarm_disk_free) 
+
 values ('127.0.0.1',22,'测试机',1,1,'hechunyang@163.com,hechunyang@126.com',1,'hechunyang',60,6,80,85);
 
 注，以下字段可以按照需求变更：
@@ -90,4 +91,59 @@ threshold_alarm_cpu_load字段含义：设置cpu load负载使用率阀值
 threshold_alarm_memory_usage字段含义：设置memory内存使用率阀值
 
 threshold_alarm_disk_free字段含义：设置磁盘空间使用率阀值
+
+
+3、修改conn.php配置文件
+
+# vim /var/www/html/os_monitor/conn.php
+
+$conn = mysqli_connect("127.0.0.1","admin","hechunyang","os_monitor_db","3306") or die("数据库链接错误" . PHP_EOL 
+.mysqli_connect_error());
+
+改成你的os_monitor监控工具表结构（os_monitor_db库）连接信息
+
+4、修改邮件报警信息
+
+# cd /var/www/html/mysql_monitor/mail/
+# vim mail.php
+
+system("./mail/sendEmail -f chunyang_he@139.com -t '{$this->send_mail_to_list}' -s 
+smtp.139.com:25 -u '{$this->alarm_subject}' -o message-charset=utf8 -o message-content-type=html -m '报警信息：<br><font 
+color='#FF0000'>{$this->alarm_info}</font>' -xu chunyang_he@139.com -xp 
+'123456' -o tls=no");
+
+改成你的发件人地址，账号密码，里面的变量不用修改。
+
+
+5、修改微信报警信息
+
+# cd /var/www/html/mysql_monitor/weixin/
+# vim wechat.py
+微信企业号设置移步
+https://github.com/X-Mars/Zabbix-Alert-WeChat/blob/master/README.md 看此教程配置。
+
+
+6、定时任务每分钟抓取一次
+
+*/1 * * * * cd /var/www/html/check_os/; /usr/bin/php /var/www/html/check_os/check_os_agent.php > /dev/null 2 >&1
+
+*/1 * * * * cd /var/www/html/check_os/; /usr/bin/php /var/www/html/check_os/check_os_server.php > /dev/null 2 >&1
+
+
+7、更改页面自动刷新频率
+
+# vim mysql_status_monitor.php
+
+# vim mysql_repl_monitor.php
+
+http-equiv="refresh" content="600"
+
+默认页面每600秒自动刷新一次。
+
+
+8、页面访问
+
+http://yourIP/os_monitor/os_status_monitor.php
+
+加一个超链接，可方便地接入你们的自动化运维平台里。
 
