@@ -13,10 +13,8 @@ function index($arr1,$arr2){
     $tag = $arr2;
 
     require '../conn.php';
- //   $get_info="select create_time,cpu_idle from os_status_history where host='${host}' and tag='${tag}' and create_time >=DATE_FORMAT(now(),'%Y-%m-%d')";
-   $get_info="select create_time,cpu_idle from os_status_history where host='${host}' and tag='${tag}' ";
+    $get_info="select create_time,cpu_idle from os_status_history where host='${host}' and tag='${tag}'  and create_time>=DATE_FORMAT(now(),'%Y-%m-%d')";
     $result1 = mysqli_query($conn,$get_info);
-	//echo $get_info;
 
   $array= array();
   class Connections{
