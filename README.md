@@ -30,7 +30,7 @@
 
 6、微信报警
 
-![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_6.png)
+![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_6.jpg)
 
 
 ### 一、环境搭建
