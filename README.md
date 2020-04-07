@@ -6,5 +6,26 @@
 
 只需一条SQL，简单的配置，即可完成部署。
 
+
 1、Dashboard首页
 ![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_1.png)
+
+
+点击图表，可以查看历史曲线图
+
+2、cpu idle空闲使用率
+![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_2.png)
+
+
+3、cpu load负载使用率
+![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_3.png)
+
+
+4、内存使用率
+![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_4.png)
+
+
+5、磁盘空间使用率
+![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_5.png)
+
+
