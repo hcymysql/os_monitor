@@ -29,3 +29,23 @@
 ![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_5.png)
 
 
+### 一、环境搭建
+1）监控端：
+# yum install httpd mysql php php-mysqlnd -y
+# service httpd restart
+
+2）被监控端
+# yum install php php-mysqlnd -y
+
+回到监控端，把https://github.com/hcymysql/os_monitor/archive/master.zip安装包解压缩到
+/var/www/html/目录下
+
+# cd /var/www/html/os_monitor/
+
+# chmod 755 ./mail/sendEmail 
+
+# chmod 755 ./weixin/wechat.py
+
+（注：邮件和微信报警调用的第三方工具，所以这里要赋予可执行权限755）
+
+
