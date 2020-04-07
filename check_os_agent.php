@@ -64,7 +64,7 @@ foreach ($disk_free_return as $v){
     if (mysqli_query($conn, $sql)) {
         echo "\n监控数据采集入库成功!\n";
         $history_sql="INSERT INTO os_status_history(host,tag,is_alive,cpu_idle,cpu_load,memory_usage,disk_free,create_time) VALUES ('{$local_host}','{$check->host_tag}','online','{$cpu_idle}','{$cpu_load}','{$memory}','{$disk_free}',NOW())";
-	    mysqli_query($conn, $history_sql);
+	mysqli_query($conn, $history_sql);
     } else {
         echo "Error: " . $sql . "   " . mysqli_error($conn);
     }
@@ -98,7 +98,6 @@ class OS_check {
                 $check_memory_usage="/usr/bin/free -m |awk '/Mem:/{total=$2; used=$3; printf \"%d\\n\", used/total*100}'";
             }
             exec($check_memory_usage,$output_memory_usage,$return_memory_usage);
-            //return $memory_usage=round($output_memory_usage[0]);
 	    return $output_memory_usage;
         /*-----------------------------------------*/
         case 'disk_free':
