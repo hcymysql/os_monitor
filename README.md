@@ -49,3 +49,45 @@
 （注：邮件和微信报警调用的第三方工具，所以这里要赋予可执行权限755）
 
 
+### 二、os_monitor监控工具搭建
+
+1、导入os_monitor监控工具表结构（os_monitor_db库）
+
+# cd  /var/www/html/mysql_monitor/
+
+# mysql  -uroot  -p123456  <  os_monitor_schema.sql
+
+
+2、录入被监控主机的信息
+
+mysql> insert  into os_status_info(host,ssh_port,tag,monitor,send_mail,
+send_mail_to_list,send_weixin,send_weixin_to_list,threshold_alarm_cpu_idle,
+threshold_alarm_cpu_load,threshold_alarm_memory_usage,threshold_alarm_disk_free) 
+values ('127.0.0.1',22,'测试机',1,1,'hechunyang@163.com,hechunyang@126.com',1,'hechunyang',60,6,80,85);
+
+注，以下字段可以按照需求变更：
+
+host字段含义：输入被监控主机的IP地址
+
+ssh_port字段含义：输入被监控主机的ssh端口
+
+tag字段含义：输入被监控主机的名字
+
+monitor字段含义：0为关闭监控（也不采集数据，直接跳过）;1为开启监控（采集数据）
+
+send_mail字段含义：0为关闭邮件报警;1为开启邮件报警
+
+send_mail_to_list字段含义：邮件人列表，多个邮件用逗号分隔
+
+send_weixin字段含义：0为关闭微信报警;1为开启微信报警
+
+send_weixin_to_list字段含义：微信公众号
+
+threshold_alarm_cpu_idle字段含义：设置空闲cpu使用率阀值，即CPU处于空闲状态时间比例
+
+threshold_alarm_cpu_load字段含义：设置cpu load负载使用率阀值
+
+threshold_alarm_memory_usage字段含义：设置memory内存使用率阀值
+
+threshold_alarm_disk_free字段含义：设置磁盘空间使用率阀值
+
