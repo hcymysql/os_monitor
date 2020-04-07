@@ -17,10 +17,8 @@ function index($arr1,$arr2,$arr3){
     $mount = $arr3;
 
     require '../conn.php';
- //   $get_info="select create_time,cpu_idle from os_status_history where host='${host}' and tag='${tag}' and create_time >=DATE_FORMAT(now(),'%Y-%m-%d')";
-   $get_info="select create_time,disk_usage from os_disk_history where host='${host}' and tag='${tag}' and mount='${mount}'";
+    $get_info="select create_time,disk_usage from os_disk_history where host='${host}' and tag='${tag}' and mount='${mount}' and create_time>=DATE_FORMAT(now(),'%Y-%m-%d')";
     $result1 = mysqli_query($conn,$get_info);
-	//echo $get_info;
 
   $array= array();
   class Connections{
@@ -34,7 +32,6 @@ function index($arr1,$arr2,$arr3){
     $array[]=$cons;
   }
   $top_data=json_encode($array);
-  // echo "{".'"user"'.":".$data."}";
   echo $top_data;
 
  }
