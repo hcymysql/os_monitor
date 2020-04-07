@@ -107,7 +107,7 @@ $conn = mysqli_connect("127.0.0.1","admin","hechunyang","os_monitor_db","3306") 
 
 5、修改邮件报警信息
 
-# cd /var/www/html/mysql_monitor/mail/
+# cd /var/www/html/os_monitor/mail/
 # vim mail.php
 
 system("./mail/sendEmail -f chunyang_he@139.com -t '{$this->send_mail_to_list}' -s 
@@ -120,7 +120,7 @@ color='#FF0000'>{$this->alarm_info}</font>' -xu chunyang_he@139.com -xp
 
 6、修改微信报警信息
 
-# cd /var/www/html/mysql_monitor/weixin/
+# cd /var/www/html/os_monitor/weixin/
 # vim wechat.py
 微信企业号设置移步
 https://github.com/X-Mars/Zabbix-Alert-WeChat/blob/master/README.md 看此教程配置。
