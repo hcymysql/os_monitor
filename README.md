@@ -148,11 +148,12 @@ http://yourIP/os_monitor/os_status_monitor.php
 
 加一个超链接，可方便地接入你们的自动化运维平台里。
 
+--------------------------------------------------
+    【被监控端Agent】
 
-####【被监控端Agent】
 需要check_os_agent.php和conn.php文件，以及mail和weixin目录文件
 
---------------------------------------------------
+
 定时任务每分钟抓取一次
 
 */1 * * * * cd /var/www/html/check_os/; /usr/bin/php /var/www/html/check_os/check_os_server.php > /dev/null 2 >&1
