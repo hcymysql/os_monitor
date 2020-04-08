@@ -138,7 +138,11 @@ class OS_check_detail extends OS_check{
     //告警---------------------
      foreach($this->os_output as $v) {
          if($this->check_para != 'disk_free'){
-             $os_output = round($v);
+	        if($this->check_para == 'cpu_idle'){
+	            $os_output = 100-round($v);
+	        } else {
+                $os_output = round($v);
+	        }
          } else{
              $disk_tmp = explode(" ",$v);
              $os_output = $disk_tmp[0];
@@ -147,7 +151,7 @@ class OS_check_detail extends OS_check{
 
 	echo $this->check_para.' '.$os_output_tmp.' 使用率是：'.$os_output."\n";
 
-         if (!empty($threshold_alarm) && $os_output < $threshold_alarm) {
+         if (!empty($threshold_alarm) && $os_output > $threshold_alarm) {
              if ($send_mail == 0 || empty($send_mail)) {
                  echo "被监控主机：$local_host  【{$tag}】关闭邮件监控报警。" . "\n";
              } else {
