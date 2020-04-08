@@ -141,7 +141,7 @@ class OS_check_detail extends OS_check{
 	        if($this->check_para == 'cpu_idle'){
 	            $os_output = 100-round($v);
 	        } else {
-                $os_output = round($v);
+                    $os_output = round($v);
 	        }
          } else{
              $disk_tmp = explode(" ",$v);
