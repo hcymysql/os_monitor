@@ -29,7 +29,7 @@ CREATE TABLE `os_status_history` (
   `disk_free` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '磁盘空间使用率',
   `create_time` timestamp NULL DEFAULT NULL COMMENT '监控信息入库时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_h_t` (`host`,`tag`)
+  KEY `idx_h_t` (`host`,`tag`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='系统监控状态历史信息记录表';
 
 
