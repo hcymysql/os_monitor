@@ -36,10 +36,12 @@
 ### 一、环境搭建
         【监控管理端】
 # yum install httpd mysql php php-mysqlnd -y
+# yum -y install perl-IO-Socket-SSL openssl-perl openssl-devel python-simplejson -y
 # service httpd restart
 
         【被监控端】
 # yum install php php-mysqlnd -y
+# yum -y install perl-IO-Socket-SSL openssl-perl openssl-devel python-simplejson -y
 
 ### 二、os_monitor监控工具搭建
 
