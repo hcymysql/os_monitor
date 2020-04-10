@@ -1,5 +1,8 @@
 <?php
 
+// 默认展示近12个小时的曲线图
+$interval_time = isset($interval_time) ? $interval_time : 'DATE_SUB(now(),interval 12 hour)'; 
+
 require 'conn.php';
 $disk_info_sql="SELECT mount FROM os_disk_history WHERE HOST='{$host}' AND tag='{$tag}' GROUP BY mount LIMIT 10";
 $disk_result = mysqli_query($conn,$disk_info_sql);
@@ -15,7 +18,8 @@ while( list($disk_mount) = mysqli_fetch_array($disk_result) ){
                 $.ajax({
                   type:"post",
                   async:false,
-		  url:"get_data/db_disk_usage_graph_getdata.php?fn=index&host=<?php echo $host;?>&tag=<?php echo $tag;?>&mount=<?php echo $disk_mount;?>",
+		  url:"get_data/db_disk_usage_graph_getdata.php?fn=index&host=<?php echo $host;?>&tag=<?php echo $tag;?>&mount=<?php echo $disk_mount;?>
+		       &interval_time=<?php echo $interval_time;?>",
                   data:{},
                   dataType:"json",
                   success:function(result){

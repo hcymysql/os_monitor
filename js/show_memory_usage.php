@@ -1,3 +1,9 @@
+<?php 
+
+// 默认展示近12个小时的曲线图
+$interval_time = isset($interval_time) ? $interval_time : 'DATE_SUB(now(),interval 12 hour)'; 
+
+?>
     <script type="text/javascript">
               var  myChart = echarts.init(document.getElementById('memory_usage'));
               var arr1=[],arr2=[];
@@ -6,7 +12,7 @@
                   type:"post",
                   async:false,
                   //url:"get_graph_data.php",
-		  url:"get_data/db_memory_usage_graph_getdata.php?fn=index&host=<?php echo $host;?>&tag=<?php echo $tag;?>",
+		  url:"get_data/db_memory_usage_graph_getdata.php?fn=index&host=<?php echo $host;?>&tag=<?php echo $tag;?>&interval_time=<?php echo $interval_time;?>",
                   data:{},
                   dataType:"json",
                   success:function(result){

@@ -1,3 +1,9 @@
+<?php 
+
+// 默认展示近12个小时的曲线图
+$interval_time = isset($interval_time) ? $interval_time : 'DATE_SUB(now(),interval 12 hour)'; 
+
+?>
     <script type="text/javascript">
               var  myChart = echarts.init(document.getElementById('cpu_idle'));
               var arr1=[],arr2=[];
@@ -5,15 +11,14 @@
                 $.ajax({
                   type:"post",
                   async:false,
-                  //url:"get_graph_data.php",
-		  url:"get_data/db_cpu_idle_graph_getdata.php?fn=index&host=<?php echo $host;?>&tag=<?php echo $tag;?>",
+                  url:"get_data/db_cpu_idle_graph_getdata.php?fn=index&host=<?php echo $host;?>&tag=<?php echo $tag;?>&interval_time=<?php echo $interval_time;?>",
                   data:{},
                   dataType:"json",
                   success:function(result){
                     if (result) {
                       for (var i = 0; i < result.length; i++) {
                           arr1.push(result[i].create_time);
-			  arr2.push(result[i].cpu_idle);
+                          arr2.push(result[i].cpu_idle);
                           //arr3.push(result[i].count);
                       }
                     }
@@ -23,13 +28,13 @@
               }
               arrTest();
 
-              var  option = {
-		    title: {
-			text: 'cpu idle空闲使用率图表',
+            var  option = {
+		        title: {
+			        text: 'cpu idle空闲使用率图表',
 		        //backgroundColor: 'FFFFFF'
-		    },
+		         },
                     tooltip: {
-			trigger: 'axis'
+			            trigger: 'axis'
                         //show: true
                     },
                     legend: {
