@@ -1,20 +1,25 @@
 <?php
 
-function index($arr1,$arr2){
+function index($arr1,$arr2,$arr3){
     ini_set('date.timezone','Asia/Shanghai');
     
 /*
 调试
     $host = '10.10.159.31';
     $tag = '测试机';
-*/    
-   
+    $interval_time = 'DATE_ADD(now(),interval 12 hour)';    
+*/
+  
     $host = $arr1;
     $tag = $arr2;
+    $interval_time = $arr3;
 
     require '../conn.php';
-    $get_info="select create_time,cpu_idle from os_status_history where host='${host}' and tag='${tag}'  and create_time>=DATE_FORMAT(now(),'%Y-%m-%d')";
+    $get_info="select create_time,cpu_idle from os_status_history where host='${host}' and tag='${tag}' 
+               and create_time >=${interval_time} AND create_time <=NOW()";
     $result1 = mysqli_query($conn,$get_info);
+    //echo $get_info."<br>";
+   
 
   $array= array();
   class Connections{
@@ -41,9 +46,9 @@ if (function_exists($fn)) {
 
     $host = $_GET['host'];
     $tag = $_GET['tag'];
-   // $port = $_GET['port'];
+    $interval_time = $_GET['interval_time'];
 
-index($host,$tag);
+index($host,$tag,$interval_time);
 
 
 ?>

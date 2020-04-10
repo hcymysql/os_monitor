@@ -1,6 +1,6 @@
 <?php
 
-function index($arr1,$arr2){
+function index($arr1,$arr2,$arr3){
     ini_set('date.timezone','Asia/Shanghai');
     
 /*
@@ -13,10 +13,13 @@ function index($arr1,$arr2){
        
     $host = $arr1;
     $tag = $arr2;
+    $interval_time = $arr3;
 
     require '../conn.php';
-    $get_info="select create_time,memory_usage from os_status_history where host='${host}' and tag='${tag}'  and create_time>=DATE_FORMAT(now(),'%Y-%m-%d')";
+    $get_info="select create_time,memory_usage from os_status_history where host='${host}' and tag='${tag}' 
+               and create_time >=${interval_time} AND create_time <=NOW()";
     $result1 = mysqli_query($conn,$get_info);
+	//echo $get_info;
 
   $array= array();
   class Connections{
@@ -43,9 +46,9 @@ if (function_exists($fn)) {
 
     $host = $_GET['host'];
     $tag = $_GET['tag'];
-   // $port = $_GET['port'];
+    $interval_time = $_GET['interval_time'];
 
-index($host,$tag);
+index($host,$tag,$interval_time);
 
 
 ?>

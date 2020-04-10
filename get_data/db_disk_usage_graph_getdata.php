@@ -1,6 +1,6 @@
 <?php
 
-function index($arr1,$arr2,$arr3){
+function index($arr1,$arr2,$arr3,$arr4){
     ini_set('date.timezone','Asia/Shanghai');
     
 /*
@@ -15,10 +15,13 @@ function index($arr1,$arr2,$arr3){
     $host = $arr1;
     $tag = $arr2;
     $mount = $arr3;
+    $interval_time = $arr4;
 
     require '../conn.php';
-    $get_info="select create_time,disk_usage from os_disk_history where host='${host}' and tag='${tag}' and mount='${mount}' and create_time>=DATE_FORMAT(now(),'%Y-%m-%d')";
+    $get_info="select create_time,disk_usage from os_disk_history where host='${host}' and tag='${tag}' and mount='${mount}'
+               and create_time >=${interval_time} AND create_time <=NOW()";
     $result1 = mysqli_query($conn,$get_info);
+	//echo $get_info;
 
   $array= array();
   class Connections{
@@ -32,6 +35,7 @@ function index($arr1,$arr2,$arr3){
     $array[]=$cons;
   }
   $top_data=json_encode($array);
+  // echo "{".'"user"'.":".$data."}";
   echo $top_data;
 
  }
@@ -39,8 +43,9 @@ function index($arr1,$arr2,$arr3){
     $mount = $_GET['mount'];
     $host = $_GET['host'];
     $tag = $_GET['tag'];
+    $interval_time = $_GET['interval_time'];
 
-index($host,$tag,$mount);
+index($host,$tag,$mount,$interval_time);
 
 
 ?>
