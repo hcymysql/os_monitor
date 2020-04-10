@@ -5,8 +5,13 @@
 工作流程：Agent端从Server端os_status_info表中，获取被监控主机的各项系统阀值，采集客户端主机资源信息完成入库和报警，Server端用来监控客户端主机ssh是否存活和页面信息展示，可实现微信和邮件报警。
 
 只需一条SQL，简单的配置，即可完成部署。
+-----------------------------------------------------------------------------
 
+# 2020-04-10更新 增加时间间隔曲线图显示
 
+![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_8.png)
+
+-----------------------------------------------------------------------------
 1、Dashboard首页
 ![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_1.png)
 
