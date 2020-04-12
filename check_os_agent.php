@@ -64,7 +64,7 @@ foreach ($disk_free_return as $v){
     if (mysqli_query($conn, $sql)) {
         echo "\n监控数据采集入库成功!\n";
         $history_sql="INSERT INTO os_status_history(host,tag,is_alive,cpu_idle,cpu_load,memory_usage,disk_free,create_time) VALUES ('{$local_host}','{$check->host_tag}','online','{$cpu_idle}','{$cpu_load}','{$memory}','{$disk_free}',NOW())";
-	mysqli_query($conn, $history_sql);
+		mysqli_query($conn, $history_sql);
     } else {
         echo "Error: " . $sql . "   " . mysqli_error($conn);
     }
@@ -98,7 +98,7 @@ class OS_check {
                 $check_memory_usage="/usr/bin/free -m |awk '/Mem:/{total=$2; used=$3; printf \"%d\\n\", used/total*100}'";
             }
             exec($check_memory_usage,$output_memory_usage,$return_memory_usage);
-	    return $output_memory_usage;
+			return $output_memory_usage;
         /*-----------------------------------------*/
         case 'disk_free':
             $check_disk_free="/bin/df | awk '{if((\$NF!~/boot/ && \$1!~/tmpfs/) && NR>1){print \$(NF-1),\$NF}}'";
@@ -124,10 +124,11 @@ class OS_check_detail extends OS_check{
 
 	    if (!$result) {
     		printf("Error: %s\n", mysqli_error($conn));
-   		exit();
+			exit();
 	    }
 
 	    list($tag,$monitor,$send_mail,$send_mail_to_list,$send_weixin,$send_weixin_to_list,$threshold_alarm)=mysqli_fetch_array($result);
+		
 	    $this->host_tag = $tag;	
 	   
 	    if($monitor==0 || empty($monitor)){
