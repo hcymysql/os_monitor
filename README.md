@@ -97,7 +97,7 @@ send_weixin字段含义：0为关闭微信报警;1为开启微信报警
 
 send_weixin_to_list字段含义：微信公众号
 
-threshold_alarm_cpu_idle字段含义：设置空闲cpu使用率阀值，即CPU处于空闲状态时间比例
+threshold_alarm_cpu_idle字段含义：设置空闲cpu使用率阀值，即CPU处于空闲状态时间比例.cpu idle空闲使用率越高，说明系统越没有压力。
 
 threshold_alarm_cpu_load字段含义：设置cpu load负载使用率阀值
 
