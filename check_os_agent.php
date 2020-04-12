@@ -138,40 +138,59 @@ class OS_check_detail extends OS_check{
     //告警---------------------
      foreach($this->os_output as $v) {
          if($this->check_para != 'disk_free'){
-	        if($this->check_para == 'cpu_idle'){
-	            $os_output = 100-round($v);
-	        } else {
-                    $os_output = round($v);
-	        }
+	     if($this->check_para == 'cpu_idle'){
+             $os_output = 100-round($v); //cpu_usage_percentage
+		     $cpu_idle_percentage = round($v);	
+	     } else {
+             $os_output = round($v);
+	     }
          } else{
              $disk_tmp = explode(" ",$v);
              $os_output = $disk_tmp[0];
              $os_output_tmp = $disk_tmp[1];
          }
 
-	if($this->check_para == 'cpu_idle'){
-	     echo $this->check_para." 空闲使用率是：".round($v) ."%" ."\n";
-	} else {
-      	     echo $this->check_para.' '.$os_output_tmp.' 使用率是：'.$os_output."\n";
-	}
+		if($this->check_para == 'cpu_idle'){
+			echo $this->check_para." 空闲使用率是：".$cpu_idle_percentage ."%" ."\n";
+			echo "cpu_usage"." 当前使用率是：".$os_output ."%" ."\n";
+		} else {
+      	    echo $this->check_para.' '.$os_output_tmp.' 使用率是：'.$os_output."\n";
+		}
 
-        if (!empty($threshold_alarm) && $os_output > $threshold_alarm) {
-             if ($send_mail == 0 || empty($send_mail)) {
-                 echo "被监控主机：$local_host  【{$tag}】关闭邮件监控报警。" . "\n";
-             } else {
-                 $alarm_subject = "【告警】被监控主机：" . $local_host . "  【{$tag}】" . $this->check_para . "使用率超高，请检查。 " . date("Y-m-d H:i:s");
-                 $alarm_info = "被监控主机：" . $local_host . "  【{$tag}】" . $this->check_para . "使用率是 " . $os_output . "，高于报警阀值{$threshold_alarm}";
-                 $sendmail = new mail($send_mail_to_list, $alarm_subject, $alarm_info);
-                 $sendmail->execCommand();
-             }
+		$threshold_alarm = $this->check_para == 'cpu_idle' ? (100-$threshold_alarm) : $threshold_alarm;
+        //echo $this->check_para . ' 报警阈值是：' . 	$threshold_alarm ."\n";
+		
+         if (!empty($threshold_alarm) && $os_output > $threshold_alarm) {
+            if ($send_mail == 0 || empty($send_mail)) {
+                echo "被监控主机：$local_host  【{$tag}】关闭邮件监控报警。" . "\n";
+            } else {
+				if($this->check_para == 'cpu_idle'){
+					$alarm_subject = "【告警】被监控主机：" . $local_host . "  【{$tag}】" . "当前cpu usage使用率超高，请检查。 " . date("Y-m-d H:i:s");
+					$alarm_info = "被监控主机：" . $local_host . "  【{$tag}】" . "当前cpu usage使用率是: " . $os_output ."%" ."  ,空闲cpu idle使用率是: ". $cpu_idle_percentage ."%";
+					$sendmail = new mail($send_mail_to_list, $alarm_subject, $alarm_info);
+					$sendmail->execCommand();
+				} else {
+					$alarm_subject = "【告警】被监控主机：" . $local_host . "  【{$tag}】" . $this->check_para . "使用率超高，请检查。 " . date("Y-m-d H:i:s");
+					$alarm_info = "被监控主机：" . $local_host . "  【{$tag}】" . $this->check_para . "使用率是 " . $os_output . "，高于报警阀值{$threshold_alarm}";
+					$sendmail = new mail($send_mail_to_list, $alarm_subject, $alarm_info);
+					$sendmail->execCommand();
+				}
+            }
 
              if ($send_weixin == 0 || empty($send_weixin)) {
                  echo "被监控主机：$local_host  【{$tag}】关闭微信监控报警。" . "\n";
              } else {
-                 $alarm_subject = "【告警】被监控主机：" . $local_host . "  【{$tag}】" . $this->check_para . "使用率超高，请检查。 " . date("Y-m-d H:i:s");
-                 $alarm_info = "被监控主机：" . $local_host . "  【{$tag}】" . $this->check_para . "使用率是 " . $os_output . "，高于报警阀值{$threshold_alarm}";
-                 $sendweixin = new weixin($send_weixin_to_list, $alarm_subject, $alarm_info);
-                 $sendweixin->execCommand();
+                 if($this->check_para == 'cpu_idle'){
+                     $alarm_subject = "【告警】被监控主机：" . $local_host . "  【{$tag}】" . "当前cpu usage使用率超高，请检查。 " . date("Y-m-d H:i:s");
+                     $alarm_info = "被监控主机：" . $local_host . "  【{$tag}】" . "当前cpu usage使用率是: " . $os_output ."%" ."  ,空闲cpu idle使用率是: ". $cpu_idle_percentage ."%";         
+					 $sendweixin = new weixin($send_weixin_to_list, $alarm_subject, $alarm_info);
+                     $sendweixin->execCommand();
+                 } else {
+                     $alarm_subject = "【告警】被监控主机：" . $local_host . "  【{$tag}】" . $this->check_para . "使用率超高，请检查。 " . date("Y-m-d H:i:s");
+                     $alarm_info = "被监控主机：" . $local_host . "  【{$tag}】" . $this->check_para . "使用率是 " . $os_output . "，高于报警阀值{$threshold_alarm}";
+                     $sendweixin = new weixin($send_weixin_to_list, $alarm_subject, $alarm_info);
+                     $sendweixin->execCommand();
+                 }
              }
 
              if (($send_mail == 1 || $send_weixin == 1)) {
@@ -193,7 +212,11 @@ class OS_check_detail extends OS_check{
              }
              if (!empty($recover_status_row["alarm_{$this->check_para}_status"]) && $recover_status_row["alarm_{$this->check_para}_status"] == 1) {
                  $recover_subject = "【恢复】被监控主机：" . $local_host . "  【{$tag}】" . $this->check_para . "已恢复 " . date("Y-m-d H:i:s");
-                 $recover_info = "被监控主机：" . $local_host . "  【{$tag}】" . $this->check_para . "已恢复，当前使用率是： " . $os_output;
+				 if($this->check_para == 'cpu_idle'){
+                    $recover_info = "被监控主机：" . $local_host . "  【{$tag}】" . "空闲" . $this->check_para . "已恢复，当前cpu usage使用率是：" . $os_output ."%,  空闲cpu idle使用率是：" . $cpu_idle_percentage ."%";
+                 } else {
+					$recover_info = "被监控主机：" . $local_host . "  【{$tag}】" . $this->check_para . "已恢复，当前使用率是： " . $os_output;
+                 }
                  if ($send_mail == 1) {
                      $sendmail = new mail($send_mail_to_list, $recover_subject, $recover_info);
                      $sendmail->execCommand();
