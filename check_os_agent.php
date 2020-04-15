@@ -41,13 +41,17 @@ $memory=round($memory_return[0]);
 
 $check = new OS_check_detail('disk_free');
 $disk_free_return=$check->usage();
-
 $disk_free=implode(PHP_EOL,$disk_free_return);
 //echo '$disk_free的返回值是：'.$disk_free."\n";
 
+$check = new OS_check_detail('disk_io');
+$disk_io_return=$check->usage();
+$disk_io=implode(PHP_EOL,$disk_io_return);
+//echo '$disk_io的返回值是：'.$disk_io."\n";
+
 echo "\n主机IP是：".$local_host."\n主机标签是：".$check->host_tag."\n";
 
-// 磁盘历史数据入库
+// 磁盘剩余空间历史数据入库
 foreach ($disk_free_return as $v){
     $disk_tmp = explode(" ",$v);
     $Used = rtrim($disk_tmp[0],'%');
@@ -57,13 +61,25 @@ foreach ($disk_free_return as $v){
     mysqli_query($conn, $disk_history);
 }
 
+// 磁盘IO %util历史数据入库
+foreach ($disk_io_return as $v_io){
+    $disk_tmp_io = explode(" ",$v_io);
+    $util = round($disk_tmp_io[0]);
+    $dev = $disk_tmp_io[1];
+    $disk_io_history="INSERT INTO os_diskio_history(host,tag,is_alive,device,diskio_util,create_time) 
+                      VALUES ('{$local_host}','{$check->host_tag}','online','{$dev}','{$util}',NOW())";
+    mysqli_query($conn, $disk_io_history);
+}
+
 //入库
 
-    $sql = "REPLACE INTO os_status(host,tag,is_alive,cpu_idle,cpu_load,memory_usage,disk_free,create_time) VALUES ('{$local_host}','{$check->host_tag}','online','{$cpu_idle}','{$cpu_load}','{$memory}','{$disk_free}',NOW())"; 
+    $sql = "REPLACE INTO os_status(host,tag,is_alive,cpu_idle,cpu_load,memory_usage,disk_free,disk_io,create_time) 
+            VALUES ('{$local_host}','{$check->host_tag}','online','{$cpu_idle}','{$cpu_load}','{$memory}','{$disk_free}','{$disk_io}',NOW())";
 
     if (mysqli_query($conn, $sql)) {
         echo "\n监控数据采集入库成功!\n";
-        $history_sql="INSERT INTO os_status_history(host,tag,is_alive,cpu_idle,cpu_load,memory_usage,disk_free,create_time) VALUES ('{$local_host}','{$check->host_tag}','online','{$cpu_idle}','{$cpu_load}','{$memory}','{$disk_free}',NOW())";
+        $history_sql="INSERT INTO os_status_history(host,tag,is_alive,cpu_idle,cpu_load,memory_usage,create_time) 
+                      VALUES ('{$local_host}','{$check->host_tag}','online','{$cpu_idle}','{$cpu_load}','{$memory}',NOW())";
 		mysqli_query($conn, $history_sql);
     } else {
         echo "Error: " . $sql . "   " . mysqli_error($conn);
@@ -104,6 +120,12 @@ class OS_check {
             $check_disk_free="/bin/df | awk '{if((\$NF!~/boot/ && \$1!~/tmpfs/) && NR>1){print \$(NF-1),\$NF}}'";
             exec($check_disk_free,$output_disk_free,$return_disk_free);
             return $output_disk_free;
+	    /*-----------------------------------------*/
+        case 'disk_io':
+            $check_disk_io="/usr/bin/sar -d -p 1 3 | awk '/Average/{print \$NF,\$2}' | sed '1d'";
+            exec($check_disk_io,$output_disk_io,$return_disk_io);
+            return $output_disk_io;
+        /*-----------------------------------------*/
 	    default:
             die("error \n");
 	    }	
@@ -138,7 +160,8 @@ class OS_check_detail extends OS_check{
 
     //告警---------------------
      foreach($this->os_output as $v) {
-         if($this->check_para != 'disk_free'){
+	 //print_r($v); //调试
+         if($this->check_para != 'disk_free' && $this->check_para != 'disk_io'){
 	     if($this->check_para == 'cpu_idle'){
              $os_output = 100-round($v); //cpu_usage_percentage
 		     $cpu_idle_percentage = round($v);	

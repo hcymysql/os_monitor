@@ -86,6 +86,7 @@ echo "</table>";
 <th>cpu load负载</th>
 <th>内存使用率</th>
 <th>磁盘空间使用率</th>
+<th>磁盘IO %util使用率</th>
 <th>采集时间</th>
 <th>图表</th>
 </tr>
@@ -117,7 +118,7 @@ $startCount=($page-1)*$perNumber; //分页开始,根据此方法计算出开始�
     if(!empty($host_tag)){
     	$condition.="AND tag='{$host_tag}'";
     }
-	$sql = "SELECT host,tag,is_alive,cpu_idle,cpu_load,memory_usage,disk_free,create_time FROM os_status WHERE $condition order by id ASC LIMIT $startCount,$perNumber";
+	$sql = "SELECT host,tag,is_alive,cpu_idle,cpu_load,memory_usage,disk_free,disk_io,create_time FROM os_status WHERE $condition order by id ASC LIMIT $startCount,$perNumber";
  	//echo $sql."<br>";   
 
 $result = mysqli_query($conn,$sql);
@@ -138,6 +139,7 @@ echo "<td>{$row['cpu_load']}</td>";
 echo "<td>{$row['memory_usage']}</td>";
 //echo "<td><a href='javascript:void(0);' onclick=\"x_admin_show('连接数详情','db_connect_statistic.php?ip={$row['1']}&dbname={$row['2']}&port={$row['3']}')\">{$row['7']}</a></td>";
 echo "<td><pre><code>{$row['disk_free']}</code></pre></td>";
+echo "<td><pre><code>{$row['disk_io']}</code></pre></td>";
 echo "<td>{$row['create_time']}</td>";
 echo "<td><a href='javascript:void(0);' onclick=\"x_admin_show('历史信息图表','show_graph.php?host={$row['host']}&tag={$row['tag']}')\"><img src='image/chart.gif' /></a></td>";
 echo "</tr>";
