@@ -120,6 +120,10 @@ if(!empty($_POST['2_day'])){
 
      <?php include 'js/show_disk_usage.php';?>
 
+<br><br>
+
+    <?php include 'js/show_diskio_usage.php';?>
+
 </body>
 </html>
 
