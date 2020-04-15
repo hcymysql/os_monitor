@@ -9,6 +9,7 @@ CREATE TABLE `os_status` (
   `cpu_load` tinyint DEFAULT NULL COMMENT 'cpu负载使用率',
   `memory_usage` tinyint DEFAULT NULL COMMENT '内存使用率',
   `disk_free` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '磁盘空间使用率',
+  `disk_io` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '磁盘IO使用率',
   `create_time` timestamp NULL DEFAULT NULL COMMENT '监控信息入库时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_h_t` (`host`,`tag`)
@@ -26,10 +27,10 @@ CREATE TABLE `os_status_history` (
   `cpu_idle` tinyint DEFAULT NULL COMMENT 'cpu空闲使用率',
   `cpu_load` tinyint DEFAULT NULL COMMENT 'cpu负载使用率',
   `memory_usage` tinyint DEFAULT NULL COMMENT '内存使用率',
-  `disk_free` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '磁盘空间使用率',
   `create_time` timestamp NULL DEFAULT NULL COMMENT '监控信息入库时间',
   PRIMARY KEY (`id`),
-  KEY `idx_h_t` (`host`,`tag`)
+  KEY `idx_h_t` (`host`,`tag`),
+  KEY `idx_ct` (`create_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='系统监控状态历史信息记录表';
 
 
@@ -71,6 +72,22 @@ CREATE TABLE `os_disk_history` (
   `mount` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '挂载目录信息',
   `disk_usage` INT DEFAULT NULL COMMENT '磁盘空间使用率',
   `create_time` TIMESTAMP NULL DEFAULT NULL COMMENT '监控信息入库时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_ct` (`create_time`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='磁盘空间使用率历史信息记录表';
 
+
+
+/*Table structure for table `os_diskio_history` */
+
+CREATE TABLE `os_diskio_history` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键自增Id',
+  `host` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '监控主机IP',
+  `tag` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '监控主机名字',
+  `is_alive` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '是否存活.online为在线;offline为离线',
+  `device` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '磁盘设备信息',
+  `diskio_util` int DEFAULT NULL COMMENT '磁盘IO使用率',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '监控信息入库时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_ct` (`create_time`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='磁盘IO使用率历史信息记录表';
