@@ -91,3 +91,6 @@ CREATE TABLE `os_diskio_history` (
   PRIMARY KEY (`id`),
   KEY `idx_ct` (`create_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='磁盘IO使用率历史信息记录表';
+
+
+
