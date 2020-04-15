@@ -8,13 +8,9 @@
 -----------------------------------------------------------------------------
 
 # 2020-04-15更新 增加磁盘IO %util统计
-
------------------------------------------------------------------------------
-# 2020-04-10更新 增加时间间隔曲线图显示
-
 ![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_8.png)
-
 -----------------------------------------------------------------------------
+
 1、Dashboard首页
 ![image](https://raw.githubusercontent.com/hcymysql/os_monitor/master/demo_image/os_monitor_1.png)
 
