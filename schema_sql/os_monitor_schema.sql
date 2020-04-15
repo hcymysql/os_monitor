@@ -56,6 +56,8 @@ CREATE TABLE `os_status_info` (
   `threshold_alarm_memory_usage` tinyint DEFAULT NULL COMMENT '设置内存使用率阀值',
   `alarm_disk_free_status` tinyint DEFAULT NULL COMMENT '记录剩余磁盘空间使用率告警信息，1为已记录',
   `threshold_alarm_disk_free` tinyint DEFAULT NULL COMMENT '设置磁盘空间使用率阀值',
+  `alarm_disk_io_status` tinyint DEFAULT NULL COMMENT '记录磁盘IO使用率告警信息，1为已记录',
+  `threshold_alarm_disk_io` tinyint DEFAULT NULL COMMENT '设置磁盘IO使用率阀值',
   PRIMARY KEY (`id`),
   KEY `IX_i_d_p` (`host`,`tag`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='系统信息配置表';
