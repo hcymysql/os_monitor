@@ -74,9 +74,9 @@
 
 mysql> insert  into os_status_info(host,ssh_port,tag,monitor,send_mail,
 send_mail_to_list,send_weixin,send_weixin_to_list,threshold_alarm_cpu_idle,
-threshold_alarm_cpu_load,threshold_alarm_memory_usage,threshold_alarm_disk_free) 
+threshold_alarm_cpu_load,threshold_alarm_memory_usage,threshold_alarm_disk_free,threshold_alarm_disk_io) 
 
-values ('127.0.0.1',22,'测试机',1,1,'hechunyang@163.com,hechunyang@126.com',1,'hechunyang',60,6,80,85);
+values ('127.0.0.1',22,'测试机',1,1,'hechunyang@163.com,hechunyang@126.com',1,'hechunyang',60,6,80,85,90);
 
 注，以下字段可以按照需求变更：
 
@@ -104,6 +104,7 @@ threshold_alarm_memory_usage字段含义：设置memory内存使用率阀值
 
 threshold_alarm_disk_free字段含义：设置磁盘空间使用率阀值
 
+threshold_alarm_disk_io字段含义：设置磁盘io %util使用率阀值
 
 4、修改conn.php配置文件
 
