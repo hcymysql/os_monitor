@@ -170,7 +170,7 @@ class OS_check_detail extends OS_check{
 	     }
          } else{
              $disk_tmp = explode(" ",$v);
-             $os_output = $disk_tmp[0];
+             $os_output = (int)$disk_tmp[0];
              $os_output_tmp = $disk_tmp[1];
          }
 
@@ -182,7 +182,7 @@ class OS_check_detail extends OS_check{
 		}
 
 		$threshold_alarm = $this->check_para == 'cpu_idle' ? (100-$threshold_alarm) : $threshold_alarm;
-        //echo $this->check_para . ' 报警阈值是：' . 	$threshold_alarm ."\n";
+        echo $this->check_para . ' 报警阈值是：' . 	$threshold_alarm ."\n";
 		
          if (!empty($threshold_alarm) && $os_output > $threshold_alarm) {
             if ($send_mail == 0 || empty($send_mail)) {
